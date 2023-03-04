@@ -1,0 +1,40 @@
+@import '../../../../../../assets/css/constants.css';
+
+.wrapper {
+    padding: 15px 10px;
+    cursor: pointer;
+}
+
+.wrapper:hover {}
+
+.wrapperActive {
+    background-color: var(--wrapper-active-color);
+}
+
+.number {
+    font-size: 12px;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: top;
+    color: var(--subtext-color);
+}
+
+.thumbnail {
+    display: inline-block;
+    width: 160px;
+    height: 90px;
+    border-radius: 3px;
+    margin: auto;
+    overflow: hidden;
+    box-sizing: unset;
+    border: var(--border);
+    box-shadow: var(--box-shadow);
+}
+
+.thumbnail:hover {
+    border-color: var(--border-hover-color);
+}
+
+.thumbnailActive {
+    border: var(--border-active);
+}

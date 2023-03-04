@@ -1,0 +1,85 @@
+import {generateId} from '../../common/functions/id';
+import {
+    getLastSelectedSlideId,
+    getSlidesByOppositeSelection,
+} from '../../common/functions/slides';
+import {Slide} from '../../types/slides';
+import {BlockPositionType, BlockType} from '../../types/blocks';
+import {Selection} from '../../types/selectedSlides';
+
+function getEmptySlide(): Slide {
+    return {
+        id: generateId(),
+        data: [],
+        background: {
+            type: 'color',
+            data: '#ffffff'
+        }
+    }
+}
+
+function addSlide(slides: Array<Slide>, selectedSlides: Array<string> | Selection): Array<Slide> {
+    const newSlide: Slide = getEmptySlide();
+    const selectedSlideId: string = getLastSelectedSlideId(selectedSlides);
+    const indexToInsert: number = slides.findIndex(slide => slide.id === selectedSlideId) + 1;
+
+    const newSlides: Array<Slide> = slides;
+    newSlides.splice(indexToInsert, 0, newSlide);
+
+    return [...newSlides];
+}
+
+function deleteSlides(slides: Array<Slide>, selectedSlides: Array<string> | Selection): Array<Slide> {
+    let newSlides = getSlidesByOppositeSelection(slides, selectedSlides);
+
+    newSlides = newSlides.length > 0 ? newSlides : [getEmptySlide()];
+
+    return newSlides;
+}
+
+function addBlock(slides: Array<Slide>, slideId: string, block: BlockType): Array<Slide> {
+    return slides.map((slide) => {
+         if (slide.id === slideId) {
+             const newBlocks = slide.data;
+             newBlocks.push(block)
+
+             return {
+                 ...slide,
+                 data: newBlocks
+             }
+         }
+
+         return slide;
+    });
+}
+
+function moveBlocks(slides: Array<Slide>, slideId: string, blockIds: Array<string>, newPosition: BlockPositionType): Array<Slide> {
+    return slides.map((slide) => {
+         if (slide.id === slideId) {
+             const newBlocks = slide.data.map((block: BlockType) => {
+                 if (blockIds.includes(block.id)) {
+                     return {
+                         ...block,
+                         x: newPosition.x,
+                         y: newPosition.y
+                     }
+                 }
+                 return block;
+             });
+             return {
+                 ...slide,
+                 data: newBlocks
+             }
+         }
+
+         return slide;
+    });
+}
+
+export {
+    addSlide,
+    deleteSlides,
+    getEmptySlide,
+    addBlock,
+    moveBlocks
+}

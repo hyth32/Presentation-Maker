@@ -1,0 +1,7 @@
+.filmstrip {
+    width: 230px;
+    text-align: center;
+    flex-shrink: 0;
+    background-color: var(--main-background-color);
+    overflow-y: scroll;
+}
